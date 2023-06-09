@@ -1,0 +1,264 @@
+---
+title: "Data Analyst Assignment"
+author: "Mahmoodur Rahman" 
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: html_document
+knit: (function(input, ...) {
+    rmarkdown::render(
+      input,
+      output_dir = "../doc"
+    )
+  })
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE, 
+  message=FALSE, 
+  warnings=FALSE
+  )
+
+# Package names
+packages <- c("dplyr", "here", "RSQLite", 
+              "knitr", "purrr", "kableExtra",
+              "data.table")
+
+# Install packages not yet installed
+installed_packages <- packages %in% rownames(installed.packages())
+if (any(installed_packages == FALSE)) {
+  install.packages(packages[!installed_packages],
+                   repos = "http://cran.us.r-project.org")
+}
+
+# Packages loading
+invisible(lapply(packages, library, character.only = TRUE))
+
+```
+
+<br>
+<br>
+
+## Assignment Overview
+
+In this assignment, you will connect to an SQLite database containing information about patients tested for MRSA, CDI, and COVID-19. You will run some analytics on the data and develop insights into the patient distribution, infection rates, and treatment effectiveness.
+
+NOTE: Please remember to load in any packages you plan to use for your analysis.
+
+
+<br>
+<br>
+
+
+## Task 1: Connect to the Database
+Your first task is to connect to the SQLite database infection.db using the RSQLite package. Once you've established a connection, list the tables in the database. You can find the SQL file located in the same zip file as this assignment.
+
+```{r task ONE, echo = F}
+# Importing data
+con <- DBI::dbConnect(
+  RSQLite::SQLite(), 
+  here("data","infection.db")  
+  )
+
+kable(dbListTables(con),
+      col.names = "Name of Dataset",
+      caption = "List of tables") |> 
+  kable_styling(latex_options = "hold_position")
+```
+
+<br>
+
+## Task 2: Load the Data into Data Frames
+Next, write a query to select all data from each of the three tables: MRSA, CDI, and COVID19. Store the result of each query in a separate data frame.
+
+```{r task TWO}
+
+# saving tables according to names followed by "_df"
+for (df.name in DBI::dbListTables(con)) {
+  assign(paste0(df.name, "_df"),
+         DBI::dbReadTable(con,df.name))
+}
+```
+
+Variable Description:
+
+* patient_identifier: the unique patient id
+* age: current age in years
+* unit: the name of unit where patient was staying at when got tested, format: "floor level - facility name" (There are 10 different facilities in the tables)
+* room: the room number where patient was staying at when got tested
+* bed: the bed code where patient was staying at when got tested
+* result: the test result: Positive or Negative
+* treatment: the medicines patient was treated
+
+<br>
+
+## Task 3: Analyze the Data
+Now, perform some basic analysis on each data frame. This could include (but not limited to):
+
+1. Count the number of patients in each facility.
+2. Identify the unit with the highest number of positive results in each facility.
+3. Calculate the infection rate for each disease (infection rate = number of positive results/total number of results).
+
+Feel free to be creative during this section and come up with some unique ways to interpret and analyze the data.
+
+```{r, echo = FALSE, result = 'asis'}
+# Make a list of data frames:
+df.list <- list(CDI_df,
+                COVID19_df,
+                MRSA_df)
+
+# Create list of tidy data:
+tidy_df_list <- lapply(
+  df.list, function(x)
+  x |> 
+    mutate(units = as.factor(substr(unit,1,7)),
+         facilities = as.factor(substr(unit,11,50)),
+         patient_identifier = as.character(patient_identifier),
+         age = as.numeric(age),
+         room = as.character(room),
+         bed = as.character(bed),
+         result = as.factor(result),
+         treatment = as.factor(treatment)
+         ) |> 
+    select(-c(unit, room, bed))
+)
+
+
+# Table showing Number of patients in each facility
+
+tidy_df_list |> 
+  lapply(
+    function(x)
+      x |> 
+      group_by(facilities) |> 
+      summarise(pt_count = n())
+    ) |> 
+  reduce(inner_join, by='facilities') |> 
+  kable(
+    col.names = c(
+      "Facility Name",
+      "Number of patients in CDI dataframe",
+      "Number of patients in Covid-19 dataframe",
+      "Number of patients in MRSA dataframe"
+    ),
+    caption = "Number of patients in each facility"
+  ) |> 
+  column_spec(2:4, width = "1in")|> 
+  kable_styling(latex_options = "hold_position")
+
+
+# Table showing the highest number of positive results in each facility
+
+tidy_df_list |>
+  lapply(
+    function(x)
+      x |>
+      filter(result == "Positive") |>
+      group_by(units, facilities) |>
+      summarise(pt_count = n()) |>
+      group_by(facilities) |>
+      top_n(1, pt_count) 
+    ) |> 
+  reduce(inner_join, by='facilities') |> 
+  relocate(facilities) |>
+      kable(
+        col.names = c(
+          "Facility name",
+          "Units with most positive patients",
+          "Number of patients",
+          "Units with most positive patients",
+          "Number of patients",
+          "Units with most positive patients",
+          "Number of patients"
+        ),
+        caption = "Units with the highest number of positive results in each facility"
+        ) |> 
+  add_header_above(c(
+    "Facility name" = 1,
+    "CDI Data" = 2,
+    "Covid-19 Data" = 2,
+    "MRSA Data" = 2)) |> 
+  column_spec(2:9, width = "0.5in")|> 
+  kable_styling(latex_options = "hold_position")
+    
+# Table showing infection rate for each disease
+
+diseases <- c("CDI","Covid-19","MRSA")
+row_names <- data.frame(diseases)
+
+tidy_df_list |>
+  lapply(
+    function(x)
+    x |>
+      summarise(
+        total_test = n(),
+        positive_test = sum(result == 'Positive')
+      ) |> 
+      mutate(infection_rate = round(positive_test/total_test,2))
+    ) |>
+  rbindlist() |> 
+  bind_cols(row_names) |> 
+  relocate(diseases) |>
+  kable(
+    col.names = c(
+      "Diseases",
+      "Total Number of Tests",
+      "Number of Positive Tests",
+      "Infection Rate"
+    ),
+    caption = "Infection rate for each diseas"
+  ) |>
+  kable_styling(latex_options = "hold_position") 
+
+```
+
+<br>
+
+## Task 4: Develop Insights
+Based on your analysis and visualization, develop some insights into the data. Discuss any patterns or trends you observed, any surprising results, and any limitations or potential improvements to your analysis. 
+
+```{r}
+# Number of patients attended largely varies by facility and by disease itself
+
+# In almost all facilities, the number of Covid-19 patients are more in number, 
+# compared to other two diseases
+
+# Among the two diseases primarily caused by antimicrobial resistance, 
+# number of CDI patients are more in number
+
+# In case of number of test-positive patients in a facility, 
+# we can see that it differs largely between diseases
+
+# We have a tie in number of positive patients in unit floor 2 and 
+# floor 4 in Ruby Valley Hospital in case of Covid-19 positive patients
+
+# Interestingly MRSA patients are the least in numbers attended by the facilities, 
+# but the disease has the hoghest Infection rate compared to other two diseases.
+
+```
+
+\newpage
+
+<br>
+<br>
+
+## Submission Methods 
+You can submit your assignment as a RMarkdown file, PDF, HTML, or Word document.
+
+To generate a PDF, HTML, or Word document from your RMarkdown file, click on the "Knit" button in the RStudio toolbar and select the output format you want.
+
+If you choose to submit PDF, HTML, or Word document, please make sure we can see both the results and your code(with echo = TRUE in your RMarkdown chunks). This is crucial for our review process.
+
+
+### Alternative Submission Methods and Programming Languages
+We acknowledge the diverse skills of our participants, so you are welcome to complete this assignment using the programming language of your choice. The provided RMarkdown file is simply a guide. You may choose to use Python, Julia, SQL, SAS, or any other language that you are comfortable with and that can effectively interact with the SQLite database.
+
+The medium of your assignment submission can also vary. If you choose not to use the provided RMarkdown file, please ensure that your chosen medium is clear, well-organized, and accessible for the selection committee. Some examples of alternative submissions include:
+
+Hosting a temporary website: Create a website to present your assignment. The website should clearly display your code, output, visualizations, and insights. Ensure that the website is live and accessible by the selection committee until the review process is complete.
+
+Sharing a GitHub repo: You can push your code, along with any generated outputs and visualizations, to a public GitHub repository. Make sure to include a README file explaining the structure of your repo and how to run your code.
+
+Sharing a Kaggle notebook: You can develop your assignment in a Kaggle notebook. Make sure the notebook is public and can be accessed by the selection committee.
+
+Please include the link to your website, GitHub repo, Kaggle notebook, or any other chosen medium when you submit your assignment.
+

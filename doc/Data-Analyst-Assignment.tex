@@ -1,0 +1,395 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Data Analyst Assignment},
+  pdfauthor={Mahmoodur Rahman},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
+\ifluatex
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\title{Data Analyst Assignment}
+\author{Mahmoodur Rahman}
+\date{09 June, 2023}
+
+\begin{document}
+\maketitle
+
+\hypertarget{assignment-overview}{%
+\subsection{Assignment Overview}\label{assignment-overview}}
+
+In this assignment, you will connect to an SQLite database containing
+information about patients tested for MRSA, CDI, and COVID-19. You will
+run some analytics on the data and develop insights into the patient
+distribution, infection rates, and treatment effectiveness.
+
+NOTE: Please remember to load in any packages you plan to use for your
+analysis.
+
+\hypertarget{task-1-connect-to-the-database}{%
+\subsection{Task 1: Connect to the
+Database}\label{task-1-connect-to-the-database}}
+
+Your first task is to connect to the SQLite database infection.db using
+the RSQLite package. Once you've established a connection, list the
+tables in the database. You can find the SQL file located in the same
+zip file as this assignment.
+
+\begin{table}[!h]
+
+\caption{\label{tab:task ONE}List of tables}
+\centering
+\begin{tabular}[t]{l}
+\hline
+Name of Dataset\\
+\hline
+CDI\\
+\hline
+COVID19\\
+\hline
+MRSA\\
+\hline
+\end{tabular}
+\end{table}
+
+\hypertarget{task-2-load-the-data-into-data-frames}{%
+\subsection{Task 2: Load the Data into Data
+Frames}\label{task-2-load-the-data-into-data-frames}}
+
+Next, write a query to select all data from each of the three tables:
+MRSA, CDI, and COVID19. Store the result of each query in a separate
+data frame.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# saving tables according to names followed by "\_df"}
+\ControlFlowTok{for}\NormalTok{ (df.name }\ControlFlowTok{in}\NormalTok{ DBI}\SpecialCharTok{::}\FunctionTok{dbListTables}\NormalTok{(con)) \{}
+  \FunctionTok{assign}\NormalTok{(}\FunctionTok{paste0}\NormalTok{(df.name, }\StringTok{"\_df"}\NormalTok{),}
+\NormalTok{         DBI}\SpecialCharTok{::}\FunctionTok{dbReadTable}\NormalTok{(con,df.name))}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Variable Description:
+
+\begin{itemize}
+\tightlist
+\item
+  patient\_identifier: the unique patient id
+\item
+  age: current age in years
+\item
+  unit: the name of unit where patient was staying at when got tested,
+  format: ``floor level - facility name'' (There are 10 different
+  facilities in the tables)
+\item
+  room: the room number where patient was staying at when got tested
+\item
+  bed: the bed code where patient was staying at when got tested
+\item
+  result: the test result: Positive or Negative
+\item
+  treatment: the medicines patient was treated
+\end{itemize}
+
+\hypertarget{task-3-analyze-the-data}{%
+\subsection{Task 3: Analyze the Data}\label{task-3-analyze-the-data}}
+
+Now, perform some basic analysis on each data frame. This could include
+(but not limited to):
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Count the number of patients in each facility.
+\item
+  Identify the unit with the highest number of positive results in each
+  facility.
+\item
+  Calculate the infection rate for each disease (infection rate = number
+  of positive results/total number of results).
+\end{enumerate}
+
+Feel free to be creative during this section and come up with some
+unique ways to interpret and analyze the data.
+
+\begin{table}[!h]
+
+\caption{\label{tab:unnamed-chunk-1}Number of patients in each facility}
+\centering
+\begin{tabular}[t]{l|>{\raggedleft\arraybackslash}p{1in}|>{\raggedleft\arraybackslash}p{1in}|>{\raggedleft\arraybackslash}p{1in}}
+\hline
+Facility Name & Number of patients in CDI dataframe & Number of patients in Covid-19 dataframe & Number of patients in MRSA dataframe\\
+\hline
+Blossom Community Hospital & 549 & 435 & 175\\
+\hline
+East Valley Medical Clinic & 250 & 1339 & 201\\
+\hline
+Featherfall Medical Center & 890 & 697 & 798\\
+\hline
+Goldvalley Medical Clinic & 605 & 560 & 569\\
+\hline
+Hyacinth General Hospital & 1526 & 998 & 416\\
+\hline
+Kindred Medical Clinic & 583 & 318 & 125\\
+\hline
+Magnolia Hospital & 763 & 1883 & 613\\
+\hline
+Maple Valley Medical Center & 535 & 633 & 364\\
+\hline
+Rosewood Hospital Center & 988 & 1283 & 435\\
+\hline
+Ruby Valley Hospital & 377 & 342 & 148\\
+\hline
+Summit Community Hospital & 508 & 777 & 503\\
+\hline
+Wildflower Medical Center & 426 & 735 & 653\\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[!h]
+
+\caption{\label{tab:unnamed-chunk-1}Units with the highest number of positive results in each facility}
+\centering
+\begin{tabular}[t]{l|>{\raggedright\arraybackslash}p{0.5in}|>{\raggedleft\arraybackslash}p{0.5in}|>{\raggedright\arraybackslash}p{0.5in}|>{\raggedleft\arraybackslash}p{0.5in}|>{\raggedright\arraybackslash}p{0.5in}|>{\raggedleft\arraybackslash}p{0.5in}|>{}p{0.5in}|>{}p{0.5in}}
+\hline
+\multicolumn{1}{c|}{Facility name} & \multicolumn{2}{c|}{CDI Data} & \multicolumn{2}{c|}{Covid-19 Data} & \multicolumn{2}{c}{MRSA Data} \\
+\cline{1-1} \cline{2-3} \cline{4-5} \cline{6-7}
+Facility name & Units with most positive patients & Number of patients & Units with most positive patients & Number of patients & Units with most positive patients & Number of patients\\
+\hline
+Summit Community Hospital & Floor 1 & 38 & Floor 5 & 51 & Floor 1 & 46\\
+\hline
+East Valley Medical Clinic & Floor 2 & 19 & Floor 4 & 168 & Floor 3 & 24\\
+\hline
+Kindred Medical Clinic & Floor 2 & 35 & Floor 1 & 25 & Floor 1 & 15\\
+\hline
+Maple Valley Medical Center & Floor 2 & 35 & Floor 1 & 50 & Floor 1 & 29\\
+\hline
+Ruby Valley Hospital & Floor 2 & 39 & Floor 2 & 30 & Floor 4 & 27\\
+\hline
+Ruby Valley Hospital & Floor 2 & 39 & Floor 4 & 30 & Floor 4 & 27\\
+\hline
+Blossom Community Hospital & Floor 4 & 26 & Floor 5 & 43 & Floor 4 & 23\\
+\hline
+Magnolia Hospital & Floor 4 & 45 & Floor 2 & 101 & Floor 2 & 92\\
+\hline
+Rosewood Hospital Center & Floor 4 & 67 & Floor 5 & 66 & Floor 2 & 43\\
+\hline
+Wildflower Medical Center & Floor 4 & 19 & Floor 3 & 61 & Floor 4 & 115\\
+\hline
+Featherfall Medical Center & Floor 5 & 71 & Floor 3 & 55 & Floor 3 & 131\\
+\hline
+Goldvalley Medical Clinic & Floor 5 & 38 & Floor 2 & 32 & Floor 1 & 56\\
+\hline
+Hyacinth General Hospital & Floor 5 & 161 & Floor 4 & 53 & Floor 1 & 46\\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[!h]
+
+\caption{\label{tab:unnamed-chunk-1}Infection rate for each diseas}
+\centering
+\begin{tabular}[t]{l|r|r|r}
+\hline
+Diseases & Total Number of Tests & Number of Positive Tests & Infection Rate\\
+\hline
+CDI & 8000 & 1222 & 0.15\\
+\hline
+Covid-19 & 10000 & 1721 & 0.17\\
+\hline
+MRSA & 5000 & 1514 & 0.30\\
+\hline
+\end{tabular}
+\end{table}
+
+\hypertarget{task-4-develop-insights}{%
+\subsection{Task 4: Develop Insights}\label{task-4-develop-insights}}
+
+Based on your analysis and visualization, develop some insights into the
+data. Discuss any patterns or trends you observed, any surprising
+results, and any limitations or potential improvements to your analysis.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Number of patients attended largely varies by facility and by disease itself}
+
+\CommentTok{\# In almost all facilities, the number of Covid{-}19 patients are more in number, }
+\CommentTok{\# compared to other two diseases}
+
+\CommentTok{\# Among the two diseases primarily caused by antimicrobial resistance, }
+\CommentTok{\# number of CDI patients are more in number}
+
+\CommentTok{\# In case of number of test{-}positive patients in a facility, }
+\CommentTok{\# we can see that it differs largely between diseases}
+
+\CommentTok{\# We have a tie in number of positive patients in unit floor 2 and }
+\CommentTok{\# floor 4 in Ruby Valley Hospital in case of Covid{-}19 positive patients}
+
+\CommentTok{\# Interestingly MRSA patients are the least in numbers attended by the facilities, }
+\CommentTok{\# but the disease has the hoghest Infection rate compared to other two diseases.}
+\end{Highlighting}
+\end{Shaded}
+
+\newpage
+
+\hypertarget{submission-methods}{%
+\subsection{Submission Methods}\label{submission-methods}}
+
+You can submit your assignment as a RMarkdown file, PDF, HTML, or Word
+document.
+
+To generate a PDF, HTML, or Word document from your RMarkdown file,
+click on the ``Knit'' button in the RStudio toolbar and select the
+output format you want.
+
+If you choose to submit PDF, HTML, or Word document, please make sure we
+can see both the results and your code(with echo = TRUE in your
+RMarkdown chunks). This is crucial for our review process.
+
+\hypertarget{alternative-submission-methods-and-programming-languages}{%
+\subsubsection{Alternative Submission Methods and Programming
+Languages}\label{alternative-submission-methods-and-programming-languages}}
+
+We acknowledge the diverse skills of our participants, so you are
+welcome to complete this assignment using the programming language of
+your choice. The provided RMarkdown file is simply a guide. You may
+choose to use Python, Julia, SQL, SAS, or any other language that you
+are comfortable with and that can effectively interact with the SQLite
+database.
+
+The medium of your assignment submission can also vary. If you choose
+not to use the provided RMarkdown file, please ensure that your chosen
+medium is clear, well-organized, and accessible for the selection
+committee. Some examples of alternative submissions include:
+
+Hosting a temporary website: Create a website to present your
+assignment. The website should clearly display your code, output,
+visualizations, and insights. Ensure that the website is live and
+accessible by the selection committee until the review process is
+complete.
+
+Sharing a GitHub repo: You can push your code, along with any generated
+outputs and visualizations, to a public GitHub repository. Make sure to
+include a README file explaining the structure of your repo and how to
+run your code.
+
+Sharing a Kaggle notebook: You can develop your assignment in a Kaggle
+notebook. Make sure the notebook is public and can be accessed by the
+selection committee.
+
+Please include the link to your website, GitHub repo, Kaggle notebook,
+or any other chosen medium when you submit your assignment.
+
+\end{document}
